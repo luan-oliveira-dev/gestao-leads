@@ -1,0 +1,55 @@
+version: "3.8"
+
+services:
+
+  # PHP-FPM
+  php_fpm:
+    image: php:8.2-fpm
+    container_name: php_fpm
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html      # monta o projeto inteiro
+    depends_on:
+      - php_mysql
+    networks:
+      - appnet
+
+  # Nginx
+  php_nginx:
+    image: nginx:alpine
+    container_name: php_nginx
+    ports:
+      - "8080:80"             # acessar via localhost:8080
+    volumes:
+      - ./:/var/www/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - php_fpm
+    networks:
+      - appnet
+
+  # MySQL (opcional, se quiser SQLite, pode remover este serviço)
+  php_mysql:
+    image: mysql:8
+    container_name: php_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - appnet
+
+# Volumes
+volumes:
+  mysql_data:
+
+# Networks
+networks:
+  appnet:
+    driver: bridge
