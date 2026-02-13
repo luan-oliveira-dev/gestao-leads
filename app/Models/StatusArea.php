@@ -14,4 +14,9 @@ class StatusArea extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function areas()
+    {
+        return $this->hasMany(Area::class, 'status_area _id', 'id');
+    }
 }

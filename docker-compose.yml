@@ -1,25 +1,19 @@
-version: "3.8"
-
 services:
-
-  # PHP-FPM
   php_fpm:
-    image: php:8.2-fpm
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: php_fpm
-    working_dir: /var/www/html
     volumes:
-      - ./:/var/www/html      # monta o projeto inteiro
-    depends_on:
-      - php_mysql
+      - ./:/var/www/html
     networks:
       - appnet
 
-  # Nginx
   php_nginx:
     image: nginx:alpine
     container_name: php_nginx
     ports:
-      - "8080:80"             # acessar via localhost:8080
+      - "8080:80"
     volumes:
       - ./:/var/www/html
       - ./nginx/conf.d:/etc/nginx/conf.d
@@ -28,14 +22,12 @@ services:
     networks:
       - appnet
 
-  # MySQL (opcional, se quiser SQLite, pode remover este serviço)
   php_mysql:
     image: mysql:8
     container_name: php_mysql
-    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel
+      MYSQL_DATABASE: gestao_leads
       MYSQL_USER: laravel
       MYSQL_PASSWORD: secret
     ports:
@@ -45,11 +37,9 @@ services:
     networks:
       - appnet
 
-# Volumes
 volumes:
   mysql_data:
 
-# Networks
 networks:
   appnet:
     driver: bridge

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('publication');
             $table->integer('duration');
             $table->integer('assessment');
-            $table->string('target audience');
+            $table->string('target_audience');
             $table->timestamps();
         });
     }

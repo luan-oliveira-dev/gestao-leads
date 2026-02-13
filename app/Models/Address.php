@@ -22,4 +22,14 @@ class Address extends Model
         'zip_code',
         'uf_id',
     ];
+
+    public function uf()
+    {
+        return $this->belongsTo(Uf::class, 'uf_id', 'id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'address_id', 'id');
+    }
 }

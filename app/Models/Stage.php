@@ -20,4 +20,9 @@ class Stage extends Model
         'funnel_id',
         'status_stage_id',
     ];
+
+    public function funnel()
+    {
+        return $this->belongsTo(Stage::class, 'funnel_id', 'id');
+    }
 }

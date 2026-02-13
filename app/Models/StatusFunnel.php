@@ -14,4 +14,10 @@ class StatusFunnel extends Model
     protected $fillable = [
         'name'
     ];
+
+
+    public function funnels()
+    {
+        return $this->hasMany(Funnel::class, 'status_funnel_id', 'id');
+    }
 }

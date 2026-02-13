@@ -15,4 +15,15 @@ class Area extends Model
         'name',
         'status_area_id',
     ];
+
+    public function products ()
+{
+    return $this->hasMany(Product::class, 'area_id', 'id');
+}
+
+public function status()
+{
+    return $this->belongsTo(StatusArea::class, 'status_area_id', 'id');
+}
+
 }

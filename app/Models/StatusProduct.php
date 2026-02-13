@@ -14,4 +14,9 @@ class StatusProduct extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'status_product_id', 'id');
+    }
 }

@@ -23,4 +23,26 @@ class User extends Model
         'address_id',
         'status_user_id',
     ];
-}
+
+
+    public function type()
+    {
+        return $this->belongsTo(TypeUser::class, 'type_user_id', 'id');
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class, 'address_id', 'id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(StatusUser::class, 'status_user_id', 'id');
+    }
+
+    public function funnels()
+    {
+        return $this->hasMany(Funnel::class, 'manager_id', 'id');
+    }
+
+    }
